@@ -20,6 +20,5 @@ def script_properties():
 # Called after change of settings including once after script load
 def script_update(settings):
   global wiggle_path, wiggle_reg
-  restore_sceneitem_after_shake()
   wiggle_path = obs.obs_data_get_string(settings, "wiggle_path")
   wiggle_reg = obs.obs_data_get_double(settings, "wiggle_reg")

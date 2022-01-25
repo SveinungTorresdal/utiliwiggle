@@ -1,3 +1,5 @@
+import obspython as obs
+
 from obs_menu import *
 from os import walk
 

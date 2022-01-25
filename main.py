@@ -1,1 +1,5 @@
-print('My first script')
+from os import walk
+
+filenames = next(walk('./assets/wiggles'), (None, None, []))[2]  # [] if no file
+
+print(filenames)

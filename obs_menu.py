@@ -15,7 +15,7 @@ def script_defaults(settings):
 def script_properties():
   props = obs.obs_properties_create()
   obs.obs_properties_add_text(props, "wiggle_scene", "Scene", obs.OBS_TEXT_DEFAULT)
-  obs.obs_properties_add_text(props, "wiggle_path", "Folder", obs.OBS_TEXT_DEFAULT)
+  obs.obs_properties_add_path(props, "wiggle_path", "Folder", obs.OBS_PATH_DIRECTORY, "", "")
   obs.obs_properties_add_text(props, "wiggle_reg", "Regex", obs.OBS_TEXT_DEFAULT)
   return props
 

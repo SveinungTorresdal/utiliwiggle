@@ -1,5 +1,7 @@
 import obspython as obs
 
+# Initially split these into files in a subfolder, but it's a bit moot for how short they are.
+
 # Description displayed in the Scripts dialog window
 def script_description():
   return """<h2>Wiggles!</h2>

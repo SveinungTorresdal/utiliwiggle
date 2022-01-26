@@ -1,12 +1,5 @@
 import obspython as obs
 
-# Initially split these into files in a subfolder, but it's a bit moot for how short they are.
-
-# Description displayed in the Scripts dialog window
-def script_description():
-  return """<h2>Wiggles!</h2>
-            <p>Load the wiggle-cannon with wiggles!</p>"""
-
 # Called to set default values of data settings
 def script_defaults(settings):
   obs.obs_data_set_default_string(settings, "wiggle_scene", "Wiggles")
@@ -20,10 +13,6 @@ def script_properties():
   obs.obs_properties_add_path(props, "wiggle_path", "Folder", obs.OBS_PATH_DIRECTORY, "", "")
   obs.obs_properties_add_text(props, "wiggle_reg", "Regex", obs.OBS_TEXT_DEFAULT)
   return props
-
-# Called after change of settings including once after script load
-def script_update(settings):
-  global wiggle_path, wiggle_reg, wiggle_scene
-  wiggle_path = obs.obs_data_get_string(settings, "wiggle_path")
-  wiggle_reg = obs.obs_data_get_double(settings, "wiggle_reg")
-  wiggle_scene = obs.obs_data_get_double(settings, "wiggle_scene")
+  
+if __name__== "__main__":
+    print('Wrong file. Run main.py.')

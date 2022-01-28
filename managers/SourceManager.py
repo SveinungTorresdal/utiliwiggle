@@ -1,5 +1,5 @@
-
 import obspython as obs
+
 
 class SceneManager:
     # Manages a scene and its items
@@ -9,6 +9,6 @@ class SceneManager:
 
         self.position = obs.vec2()
 
-    
+
 if __name__ == "__main__":
     print('Wrong file. Run main.py.')

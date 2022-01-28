@@ -1,10 +1,10 @@
 import obspython as obs
 
 
-class SceneManager:
+class SourceManager:
     # Manages a scene and its items
 
-    def __init__(self, scene, file):
+    def __init__(self, scene, filepath):
         settings = obs.obs_data_create()
 
         self.position = obs.vec2()

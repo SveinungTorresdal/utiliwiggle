@@ -1,5 +1,6 @@
 import obspython as obs
 
+from managers.SourceManager import SourceManager as Source
 from utils.io import get_filepaths_by_extension
 
 
@@ -55,8 +56,8 @@ class SceneManager:
         self.items.clear()
 
         for filepath in self.filepaths:
-            print(filepath)
-            self.items.append(filepath)
+            newSource = Source(self.scene, filepath)
+            self.items.append(newSource)
     
 
     def getIsLoaded (self) -> bool:

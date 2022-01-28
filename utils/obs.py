@@ -4,11 +4,7 @@ import obspython as obs
 # Returns a list of sources
 def get_source_names():
     sources = obs.obs_enum_sources()
-    names = []
-
-    for source in sources:
-        names.append(obs.obs_source_get_name(source))
-
+    names = [obs.obs_source_get_name(source) for source in sources]
     obs.source_list_release(sources)
 
     return names
@@ -17,11 +13,7 @@ def get_source_names():
 # Returns a list of names of all existing scenes
 def get_scene_names():
     scenes = obs.obs_frontend_get_scenes()
-    names = []
-
-    for scene in scenes:
-        names.append(obs.obs_source_get_name(scene))
-
+    names = [obs.obs_source_get_name(scene) for scene in scenes]
     obs.source_list_release(scenes)
 
     return names

@@ -16,6 +16,8 @@ class Slot:
     target_y: int
     target_rotation: int
 
+    target_vector: Union[Tuple[int, int, int], None] = None
+
     def __init__(self, x_coord: int, y_coord: int, rotation: int, image_object,
                  target_x: Union[int, None] = None, target_y: Union[int, None] = None, target_rotation: Union[int, None] = None):
         self.x_coord = x_coord
@@ -36,7 +38,12 @@ class Slot:
         return sqrt(d_x**2 + d_y**2 + d_rot**2)
 
     def get_target_vector(self) -> Tuple[int, int, int]:
-        delta_x = self.target_x-self.x_coord
-        delta_y = self.target_y-self.y_coord
-        delta_rot = self.target_rotation-self.rotation
-        return delta_x, delta_y, delta_rot
+        if self.target_vector:
+            return self.target_vector
+        else:
+            delta_x = self.target_x-self.x_coord
+            delta_y = self.target_y-self.y_coord
+            delta_rot = self.target_rotation-self.rotation
+            self.target_vector = (delta_x, delta_y, delta_rot)
+            return self.target_vector
+

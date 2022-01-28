@@ -64,13 +64,6 @@ class SceneManager:
         return self.loaded
 
 
-    def getScene (self):
-        if self.scene is None:
-            self.setScene()
-
-        return self.scene
-
-
     def execute(self) -> None:
         if not self.loaded:
             print('SceneManager loading.')
@@ -79,7 +72,7 @@ class SceneManager:
             self.setSources()
             print(f'We have {len(self.items)} files to load.')
         
-        if self.getScene() is None:
+        if self.scene is None:
             return
         
 

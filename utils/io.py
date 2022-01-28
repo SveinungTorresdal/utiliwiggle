@@ -2,7 +2,6 @@ import os
 
 
 def get_filepaths_by_extension(path: str, file_extension: str):
-    print(file_extension)
     files = []
 
     for (dirpath, dirnames, filenames) in os.walk(path):

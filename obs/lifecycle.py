@@ -13,16 +13,16 @@ def script_update(settings):
     SceneManager.setConfig(settings, wiggle_scene, wiggle_path, wiggle_reg)
 
     if SceneManager.getIsLoaded():
-        SceneManager.draw()
+        SceneManager.execute()
     else:
         # We need to wait for OBS to finish loading frontend
-        # Subsequent calls are fine to call SceneManager.draw()
+        # Subsequent calls are fine to call SceneManager
         obs.obs_frontend_add_event_callback(event_callback)
 
 
 def event_callback(event):
     if event is obs.OBS_FRONTEND_EVENT_FINISHED_LOADING:
-        SceneManager.draw()
+        SceneManager.execute()
 
 
 if __name__ == "__main__":

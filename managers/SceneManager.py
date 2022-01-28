@@ -6,35 +6,81 @@ from utils.io import get_filepaths_by_extension
 class SceneManager:
     # Manages a scene and its items
 
-    def __init__(self):
+    def __init__ (self):
+        # Basic conf set via setConfig
         self.settings = None
         self.scene_name = ''
         self.directory = ''
         self.filetype = ''
+
+        # "Loaded" checkflag to verify we're allowed to get scenes and sources.
         self.loaded = False
 
-    def setConfig(self, settings, scene_name='', directory='', filetype=''):
+        # Filepaths
+        self.filepaths = []
+
+        # Scene source, scene item sources
+        self.scene = None
+        self.items = []
+    
+
+    def setConfig (self, settings, scene_name: str = '', directory: str = '', filetype: str = '') -> None:
         self.settings = settings
         self.scene_name = scene_name
-        self.directory = directory
-        self.filetype = filetype
+        
+        changed = False
+        if self.directory != directory:
+            self.directory = directory
+            changed = True
+        
+        if self.filetype != filetype:
+            self.filetype = filetype
+            changed = True
 
-    def draw(self):
-        if not self.loaded:
-            self.loaded = True
+        if changed:
+            self.filepaths = get_filepaths_by_extension(directory, filetype)
 
-        self.getScene()
-        return
+            if self.loaded:
+                self.setSources()
 
-    def getIsLoaded(self):
+
+    def setScene (self, scene = None) -> None:
+        if scene is None:
+            self.scene = obs.obs_get_source_by_name(self.scene_name)
+        else:
+            self.scene = scene
+        
+
+    def setSources (self):
+        self.items.clear()
+
+        for filepath in self.filepaths:
+            print(filepath)
+            self.items.append(filepath)
+    
+
+    def getIsLoaded (self) -> bool:
         return self.loaded
 
-    def getScene(self):
-        wiggle_scene = obs.obs_data_get_string(self.settings, "wiggle_scene")
-        scene = obs.obs_get_source_by_name(wiggle_scene)
-        print(wiggle_scene)
-        print(scene)
 
+    def getScene (self):
+        if self.scene is None:
+            self.setScene()
+
+        return self.scene
+
+
+    def execute(self) -> None:
+        if not self.loaded:
+            print('SceneManager loading.')
+            self.loaded = True
+            self.setScene()
+            self.setSources()
+            print(f'We have {len(self.items)} files to load.')
+        
+        if self.getScene() is None:
+            return
+        
 
 if __name__ != "__main__":
     Instance = SceneManager()

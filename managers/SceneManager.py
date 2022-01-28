@@ -27,9 +27,13 @@ class SceneManager:
 
     def setConfig (self, settings, scene_name: str = '', directory: str = '', filetype: str = '') -> None:
         self.settings = settings
-        self.scene_name = scene_name
-        
+
         changed = False
+
+        if self.scene_name != scene_name:
+            self.scene_name = scene_name
+            changed = True
+
         if self.directory != directory:
             self.directory = directory
             changed = True
@@ -39,6 +43,7 @@ class SceneManager:
             changed = True
 
         if changed:
+            self.setScene()
             self.filepaths = get_filepaths_by_extension(directory, filetype)
 
             if self.loaded:

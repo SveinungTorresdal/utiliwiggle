@@ -4,6 +4,8 @@ Utility functions and classes to help create layouts
 import time
 from math import sqrt
 from typing import Union, List, Tuple
+import obspython as obs
+
 
 TIMER_DURATION_ms = 10
 

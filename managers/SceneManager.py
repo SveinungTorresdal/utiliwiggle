@@ -21,6 +21,7 @@ class SceneManager:
         self.filepaths = []
 
         # Scene source, scene item sources
+        self.scene_src = None
         self.scene = None
         self.items = []
     
@@ -52,8 +53,8 @@ class SceneManager:
 
     def setScene (self, scene = None) -> None:
         if scene is None:
-            source = obs.obs_get_source_by_name(self.scene_name)
-            self.scene = obs.obs_scene_from_source(source)
+            self.scene_src = obs.obs_get_source_by_name(self.scene_name)
+            self.scene = obs.obs_scene_from_source(self.scene_src)
         else:
             self.scene = scene
         
@@ -61,12 +62,18 @@ class SceneManager:
     def setSources (self):
         self.items.clear()
 
+        starting_x = obs.obs_source_get_width(self.scene_src)
+
         starting_pos = obs.vec2()
+        target_pos = obs.vec2()
+
+        obs.vec2_set(starting_pos, starting_x, 50)
+        obs.vec2_set(target_pos, 0, 50)
 
         for idx, filepath in enumerate(self.filepaths):
-            obs.vec2_set(starting_pos, 50*idx,50)
             newSource = Source(self.scene, filepath, starting_pos)
             self.items.append(newSource)
+            newSource.move(10)
     
 
     def getIsLoaded (self) -> bool:

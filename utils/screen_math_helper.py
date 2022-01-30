@@ -44,12 +44,14 @@ class Slot:
 
     def get_target_vector(self) -> Tuple[int, int, float]:
         if self.target_vector:
+            print(self.target_vector)
             return self.target_vector
         else:
             delta_x: int = self.target_pos.x - self.starting_pos.x
             delta_y: int = self.target_pos.y - self.starting_pos.y
             delta_rot = self.target_rotation - self.starting_rotation
             self.target_vector = (delta_x, delta_y, delta_rot)
+            print(self.target_vector)
             return self.target_vector
 
     def step(self, normalized_time: float):
@@ -64,10 +66,10 @@ class Slot:
         obs.obs_sceneitem_set_pos(self.scene_item, vect2)
 
     def timer_callback(self):
-        if time.time_ns() < self.end_time:
-            elapsed_time_ns = time.time_ns() - self.start_time
+        if time.time() < self.end_time:
+            elapsed_time = time.time() - self.start_time
             delta_t_ns = self.end_time - self.start_time
-            normalized_time = elapsed_time_ns / delta_t_ns
+            normalized_time = elapsed_time / delta_t_ns
             self.step(normalized_time)
         else:
             obs.remove_current_callback()
@@ -75,8 +77,8 @@ class Slot:
             self.save_current_pos()
 
     def move_s(self, duration: int):
-        current_time = time.time_ns()
-        self.end_time = current_time + duration * 1000000
+        current_time = time.time()
+        self.end_time = current_time + duration
         self.start_time = current_time
         obs.timer_add(self.timer_callback, TIMER_DURATION_ms)
 

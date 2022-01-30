@@ -67,11 +67,11 @@ class SceneManager:
         starting_pos = obs.vec2()
         target_pos = obs.vec2()
 
-        obs.vec2_set(starting_pos, starting_x, 50)
-        obs.vec2_set(target_pos, 0, 50)
-
         for idx, filepath in enumerate(self.filepaths):
-            newSource = Source(self.scene, filepath, starting_pos)
+            obs.vec2_set(starting_pos, starting_x+112, 720-112)
+            obs.vec2_set(target_pos, -112, 720-112)
+
+            newSource = Source(self.scene, filepath, starting_pos, target_pos)
             self.items.append(newSource)
             newSource.move(10)
     

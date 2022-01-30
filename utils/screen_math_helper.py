@@ -7,7 +7,7 @@ from typing import Union, List, Tuple
 import obspython as obs
 
 
-TIMER_DURATION_ms = 10
+TIMER_DURATION_ms = 10 
 
 
 class Slot:
@@ -44,21 +44,21 @@ class Slot:
 
     def get_target_vector(self) -> Tuple[int, int, float]:
         if self.target_vector:
-            print(self.target_vector)
             return self.target_vector
         else:
             delta_x: int = self.target_pos.x - self.starting_pos.x
             delta_y: int = self.target_pos.y - self.starting_pos.y
             delta_rot = self.target_rotation - self.starting_rotation
             self.target_vector = (delta_x, delta_y, delta_rot)
-            print(self.target_vector)
             return self.target_vector
 
     def step(self, normalized_time: float):
         d_x, d_y, d_rot = self.get_target_vector()
+
         step_x = d_x * normalized_time
         step_y = d_y * normalized_time
         step_rot = d_rot * normalized_time
+
         vect2 = obs.vec2()
         obs.vec2_set(vect2, self.starting_pos.x + step_x, self.starting_pos.y + step_y)
 

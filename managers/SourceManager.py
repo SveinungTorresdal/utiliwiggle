@@ -1,11 +1,12 @@
 import obspython as obs
 import os
 import utils.screen_math_helper as pixel
+from typing import Union, List, Tuple
 
 class SourceManager:
     # Manages a scene and its items
 
-    def __init__(self, scene, filepath, starting_pos):
+    def __init__(self, scene, filepath, starting_pos, target_pos: Union[obs.vec2, None] = None):
         self.settings = obs.obs_data_create()
         self.scene = scene
         self.scene_item = None
@@ -14,7 +15,7 @@ class SourceManager:
 
         self.createSource()
         
-        self.slot = pixel.Slot(starting_pos, 0, self.scene_item)
+        self.slot = pixel.Slot(starting_pos, 0, self.scene_item, target_pos)
 
     def __del__ (self):
         obs.obs_sceneitem_remove(self.scene_item)

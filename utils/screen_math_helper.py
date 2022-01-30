@@ -12,12 +12,11 @@ TIMER_DURATION_ms = 10
 
 class Slot:
     """container class to wrap an OBS Object (e.g. image) with on-screen coordinates and rotation"""
-    x_origin: int  # the X coordinate of the object in pixel
-    y_origin: int  # the Y coordinate of the object in pixel
+    starting_pos: obs.vec2
     rot_origin: int  # rotation of the objects in degree
-    image_object: object
+    scene_item: object
 
-    target_x: int
+    target_pos: int
     target_y: int
     target_rotation: int
 
@@ -26,20 +25,18 @@ class Slot:
     start_time: int = 0
     end_time: int = 0
 
-    def __init__(self, x_coord: int, y_coord: int, rotation: int, image_object,
-                 target_x: Union[int, None] = None, target_y: Union[int, None] = None, target_rotation: Union[int, None] = None):
-        self.x_origin = x_coord
-        self.y_origin = y_coord
+    def __init__(self, starting_pos: obs.vec2, rotation: int, scene_item,
+                 target_pos: Union[obs.vec2, None] = None, target_rotation: Union[int, None] = None):
+        self.starting_pos = starting_pos
         self.rot_origin = rotation
-        self.image_object = image_object
-        self.target_x = target_x if target_x is not None else self.x_origin  # assign targets if given, otherwise assign current position
-        self.target_y = target_y if target_y is not None else self.y_origin
+        self.scene_item = scene_item
+        self.target_pos = target_pos if target_pos is not None else self.starting_pos  # assign targets if given, otherwise assign current position
         self.target_rotation = target_rotation if target_rotation is not None else self.rot_origin
-        obs.obs_sceneitem_set_rot(self.image_object, self.rot_origin)
-        obs.obs_sceneitem_set_pos(self.image_object, (self.x_origin, self.y_origin))
+        obs.obs_sceneitem_set_rot(self.scene_item, self.rot_origin)
+        obs.obs_sceneitem_set_pos(self.scene_item, self.starting_pos)
 
     def set_target(self, target_x: Union[int, None] = None, target_y: Union[int, None] = None, target_rotation: Union[int, None] = None):
-        self.target_x = target_x if target_x is not None else self.x_origin  # assign targets if given, otherwise assign current position
+        self.target_pos = target_x if target_x is not None else self.x_origin  # assign targets if given, otherwise assign current position
         self.target_y = target_y if target_y is not None else self.y_origin
         self.target_rotation = target_rotation if target_rotation is not None else self.rot_origin
 
@@ -51,7 +48,7 @@ class Slot:
         if self.target_vector:
             return self.target_vector
         else:
-            delta_x = self.target_x - self.x_origin
+            delta_x = self.target_pos - self.x_origin
             delta_y = self.target_y - self.y_origin
             delta_rot = self.target_rotation - self.rot_origin
             self.target_vector = (delta_x, delta_y, delta_rot)
@@ -62,8 +59,8 @@ class Slot:
         step_x = d_x * normalized_time
         step_y = d_y * normalized_time
         step_rot = d_rot * normalized_time
-        obs.obs_sceneitem_set_rot(self.image_object, self.rot_origin + step_rot)
-        obs.obs_sceneitem_set_pos(self.image_object, (self.x_origin + step_x, self.y_origin + step_y))
+        obs.obs_sceneitem_set_rot(self.scene_item, self.rot_origin + step_rot)
+        obs.obs_sceneitem_set_pos(self.scene_item, (self.x_origin + step_x, self.y_origin + step_y))
 
     def timer_callback(self):
         if time.time_ns() < self.end_time:
@@ -83,5 +80,5 @@ class Slot:
         obs.timer_add(self.timer_callback, TIMER_DURATION_ms)
 
     def save_current_pos(self):
-        self.rot_origin = obs.obs_sceneitem_get_rot(self.image_object)
-        self.x_origin, self.y_origin = obs.obs_sceneitem_get_pos(self.image_object)
+        self.rot_origin = obs.obs_sceneitem_get_rot(self.scene_item)
+        self.x_origin, self.y_origin = obs.obs_sceneitem_get_pos(self.scene_item)

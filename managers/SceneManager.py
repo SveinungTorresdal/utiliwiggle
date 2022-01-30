@@ -52,7 +52,8 @@ class SceneManager:
 
     def setScene (self, scene = None) -> None:
         if scene is None:
-            self.scene = obs.obs_get_source_by_name(self.scene_name)
+            source = obs.obs_get_source_by_name(self.scene_name)
+            self.scene = obs.obs_scene_from_source(source)
         else:
             self.scene = scene
         
@@ -60,8 +61,11 @@ class SceneManager:
     def setSources (self):
         self.items.clear()
 
-        for filepath in self.filepaths:
-            newSource = Source(self.scene, filepath)
+        starting_pos = obs.vec2()
+
+        for idx, filepath in enumerate(self.filepaths):
+            obs.vec2_set(starting_pos, 50*idx,50)
+            newSource = Source(self.scene, filepath, starting_pos)
             self.items.append(newSource)
     
 

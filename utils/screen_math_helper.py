@@ -21,8 +21,8 @@ class Slot:
 
     target_vector: Union[Tuple[int, int, float], None] = None
 
-    start_time: int = 0
-    end_time: int = 0
+    start_time: float = 0
+    end_time: float = 0
 
     def __init__(self, starting_pos: obs.vec2, rotation: float, scene_item,
                  target_pos: Union[obs.vec2, None] = None, target_rotation: Union[float, None] = None):
@@ -37,6 +37,7 @@ class Slot:
     def set_target(self, target_position_new: Union[obs.vec2, None] = None, target_rotation: Union[float, None] = None):
         self.target_pos = target_position_new if target_position_new is not None else self.starting_pos  # assign targets if given, otherwise assign current position
         self.target_rotation = target_rotation if target_rotation is not None else self.starting_rotation
+        self.target_vector = None
 
     def get_distance(self) -> float:
         d_x, d_y, d_rot = self.get_target_vector()
@@ -68,8 +69,8 @@ class Slot:
     def timer_callback(self):
         if time.time() < self.end_time:
             elapsed_time = time.time() - self.start_time
-            delta_t_ns = self.end_time - self.start_time
-            normalized_time = elapsed_time / delta_t_ns
+            delta_t = self.end_time - self.start_time
+            normalized_time = elapsed_time / delta_t
             self.step(normalized_time)
         else:
             obs.remove_current_callback()

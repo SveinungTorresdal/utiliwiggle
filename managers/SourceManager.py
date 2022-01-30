@@ -30,8 +30,8 @@ class SourceManager:
         self.source = obs.obs_source_create_private("image_source", os.path.split(self.filepath)[1], self.settings)
         self.scene_item = obs.obs_scene_add(self.scene, self.source)
 
-    def move(self, duration: int):
-        self.slot.move_s(duration)
+    def move(self, duration: int, delay: float = 0):
+        self.slot.move_s(duration, delay)
 
 
 if __name__ == "__main__":

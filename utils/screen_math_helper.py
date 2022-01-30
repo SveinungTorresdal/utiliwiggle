@@ -77,10 +77,10 @@ class Slot:
             self.step(1)
             self.save_current_pos()
 
-    def move_s(self, duration: int):
+    def move_s(self, duration: int, delay: int = 0):
         current_time = time.time()
-        self.end_time = current_time + duration
-        self.start_time = current_time
+        self.end_time = current_time + duration + delay
+        self.start_time = current_time + delay
         obs.timer_add(self.timer_callback, TIMER_DURATION_ms)
 
     def save_current_pos(self):

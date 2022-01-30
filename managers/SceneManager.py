@@ -71,8 +71,8 @@ class SceneManager:
             newSource = Source(self.scene, filepath, starting_pos, target_pos)
             self.items.append(newSource)
 
-        for source in self.items:
-            source.move(10)
+        for idx, source in enumerate(self.items):
+            source.move(10, 0.5+0.5*idx)
 
     def getIsLoaded(self) -> bool:
         return self.loaded

@@ -77,7 +77,7 @@ class Slot:
             self.step(1)
             self.save_current_pos()
 
-    def move_s(self, duration: int, delay: int = 0):
+    def move_s(self, duration: int, delay: float = 0):
         current_time = time.time()
         self.end_time = current_time + duration + delay
         self.start_time = current_time + delay

@@ -27,7 +27,7 @@ class MoveTo(Action):
         new_pos: obs.vec2
         obs.vec2_set(normal_v, normal, normal)
         obs.vec2_mul(step_v, self.delta_v, normal_v)
-        obs.vec2_add(new_pos, self.step_v)
+        obs.vec2_add(new_pos, self.starting_pos, self.step_v)
         obs.obs_sceneitem_set_pos(self.scene_item, new_pos)
 
         # Returns either 0 (not done) or 1 (done)

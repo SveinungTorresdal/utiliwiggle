@@ -5,7 +5,7 @@ import obspython as obs
 from typing import Union
 
 class MoveToRotate(MoveTo, Rotate):
-    # Move to a given position on the screen
+    # Move to a given position on the screen while rotating
 
     def __init__(self, duration: float, scene_item: object, target_pos: obs.vec2, target_rot: float):
         MoveTo.__init__(duration, scene_item, target_pos, True)

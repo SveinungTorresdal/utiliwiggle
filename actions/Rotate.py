@@ -4,7 +4,7 @@ import obspython as obs
 from typing import Union
 
 class MoveTo(Action):
-    # Move to a given position on the screen
+    # Rotate to a given angle
 
     starting_rot: float
     target_rot: float

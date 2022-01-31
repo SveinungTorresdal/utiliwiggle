@@ -1,5 +1,6 @@
 import time
 
+
 class Action:
     # Base class for "NPC" "actions"
 
@@ -12,8 +13,8 @@ class Action:
     def __init__(self, duration: float, scene_item: object):
         self.duration = duration
         self.scene_item = scene_item
-        
-    def start (self) -> None:
+
+    def start(self) -> None:
         self.start_time = time.time()
         self.end_time = self.start_time + self.duration
 

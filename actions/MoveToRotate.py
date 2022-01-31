@@ -16,8 +16,9 @@ class MoveToRotate(MoveTo, Rotate):
         Rotate.start()
 
     def update(self, normal: Union[float, None] = None) -> bool:
-        MoveTo.update()
-        Rotate.update()
+        normal = MoveTo.normie_time()
+        MoveTo.update(normal)
+        Rotate.update(normal)
 
         # Returns either 0 (not done) or 1 (done)
         return bool(int(normal))

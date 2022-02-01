@@ -14,9 +14,9 @@ class Rotate(Action):
     def __init__(self, duration: float, scene_item: object, target_rot: float):
         super().__init__(duration, scene_item)
 
-        self.starting_rot = 0
+        self.starting_rot = None
         self.target_rot = target_rot
-        self.delta_rot = 0
+        self.delta_rot = None
 
     def start(self):
         super().start()

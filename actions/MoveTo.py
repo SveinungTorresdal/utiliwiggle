@@ -7,13 +7,17 @@ from typing import Union
 class MoveTo(Action):
     # Move to a given position on the screen
 
-    starting_pos: obs.vec2 = obs.vec2()
-    target_pos: obs.vec2 = obs.vec2()
-    delta_v: obs.vec2 = obs.vec2()
+    starting_pos: obs.vec2
+    target_pos: obs.vec2
+    delta_v: obs.vec2
 
     def __init__(self, duration: float, scene_item: object, target_x: float, target_y: float):
         print(f'Called, target {target_x}, {target_y}')
         super().__init__(duration, scene_item)
+
+        self.starting_pos = obs.vec2()
+        self.target_pos = obs.vec2()
+        self.delta_v = obs.vec2()
 
         obs.vec2_set(self.target_pos, target_x, target_y)
         

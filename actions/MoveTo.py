@@ -20,7 +20,7 @@ class MoveTo(Action):
         self.delta_v = obs.vec2()
 
         obs.vec2_set(self.target_pos, target_x, target_y)
-        
+
     def start(self):
         print(f'New move! Going to {self.target_pos.x, self.target_pos.y}')
         super().start()
@@ -30,8 +30,8 @@ class MoveTo(Action):
     def update(self, normal: Union[float, None] = None) -> bool:
         normal = normal if normal is not None else super().normie_time()
 
-        normal_v = obs.vec2() # time between 0 and 1
-        step_v = obs.vec2()   # calculated distance to move
+        normal_v = obs.vec2()  # time between 0 and 1
+        step_v = obs.vec2()  # calculated distance to move
         new_pos = obs.vec2()  # old position + new addition
         obs.vec2_set(normal_v, normal, normal)
         obs.vec2_mul(step_v, self.delta_v, normal_v)
@@ -42,7 +42,7 @@ class MoveTo(Action):
         obs.obs_sceneitem_set_pos(self.scene_item, new_pos)
 
         # Returns either 0 (not done) or 1 (done)
-        return bool(int(normal))
+        return False if normal <= 1 else True
 
 
 if __name__ == "__main__":

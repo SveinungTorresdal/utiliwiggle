@@ -29,7 +29,7 @@ class Rotate(Action):
         obs.obs_sceneitem_set_rot(self.scene_item, step_rot)
 
         # Returns either 0 (not done) or 1 (done)
-        return bool(int(normal))
+        return False if normal <= 1 else True
 
 
 if __name__ == "__main__":

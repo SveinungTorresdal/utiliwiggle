@@ -15,6 +15,7 @@ class Action:
         self.scene_item = scene_item
 
     def start(self) -> None:
+        print(f'Super called with {self.duration}')
         self.start_time = time.time()
         self.end_time = self.start_time + self.duration
 
@@ -27,3 +28,7 @@ class Action:
             return normalized
         else:
             return 1
+
+
+if __name__ == "__main__":
+    print('Wrong file. Run main.py.')

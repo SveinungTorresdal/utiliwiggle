@@ -1,10 +1,10 @@
-import actions.Action as Action
+from actions.Action import Action
 import obspython as obs
 
 from typing import Union
 
 
-class MoveTo(Action):
+class Rotate(Action):
     # Rotate to a given angle
 
     starting_rot: float
@@ -28,3 +28,7 @@ class MoveTo(Action):
 
         # Returns either 0 (not done) or 1 (done)
         return bool(int(normal))
+
+
+if __name__ == "__main__":
+    print('Wrong file. Run main.py.')

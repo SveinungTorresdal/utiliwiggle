@@ -22,3 +22,7 @@ class MoveToRotate(MoveTo, Rotate):
 
         # Returns either 0 (not done) or 1 (done)
         return bool(int(normal))
+
+
+if __name__ == "__main__":
+    print('Wrong file. Run main.py.')

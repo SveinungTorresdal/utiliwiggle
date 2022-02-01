@@ -1,5 +1,6 @@
 import obspython as obs
 import os
+import managers.ActionManager as AM
 import utils.screen_math_helper as pixel
 from typing import Union, List, Tuple
 
@@ -16,7 +17,8 @@ class SourceManager:
 
         self.createSource()
 
-        self.slot = pixel.Slot(starting_pos, 0, self.scene_item, target_pos)
+        # self.slot = pixel.Slot(starting_pos, 0, self.scene_item, target_pos)
+        self.AM = AM.ActionManager(self.scene_item, 0)
 
     def __del__(self):
         obs.obs_sceneitem_remove(self.scene_item)
@@ -31,7 +33,7 @@ class SourceManager:
         self.scene_item = obs.obs_scene_add(self.scene, self.source)
 
     def move(self, duration: int, delay: float = 0):
-        self.slot.move_s(duration, delay)
+        self.AM.start()
 
 
 if __name__ == "__main__":

@@ -14,11 +14,13 @@ class Rotate(Action):
     def __init__(self, duration: float, scene_item: object, target_rot: float):
         super().__init__(duration, scene_item)
 
+        self.starting_rot = 0
         self.target_rot = target_rot
+        self.delta_rot = 0
 
     def start(self):
         super().start()
-        obs.obs_sceneitem_get_rot(self.scene_item, self.starting_rot)
+        self.starting_rot = obs.obs_sceneitem_get_rot(self.scene_item)
         self.delta_rot = self.target_rot - self.starting_rot
 
     def update(self, normal: Union[float, None] = None) -> bool:

@@ -16,16 +16,13 @@ class ActionManager():
     def __init__(self, scene_item, offset):
         self.scene_item = scene_item
 
-        m1 = MoveTo(1, scene_item, 1280-112, 0)
-        m2 = MoveTo(2, scene_item, 1280-112, 720-112)
-        m3 = MoveTo(3, scene_item, 0, 720-112)
-        m4 = MoveTo(4, scene_item, 0, 0)
+        m1 = MoveTo(0, scene_item, 1280, 720-112)
+        m2 = MoveTo(2, scene_item, -112, 720-112)
 
         self.current_queue = [
-            # Wait(0.5*offset, scene_item)
         ]
         self.repeating_queue = [
-            m1, m2, m3, m4
+            m1, m2
         ]
 
     def start(self):

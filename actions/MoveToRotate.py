@@ -22,7 +22,7 @@ class MoveToRotate(MoveTo, Rotate):
         Rotate.update(normal)
 
         # Returns either 0 (not done) or 1 (done)
-        return False if normal <= 1 else True
+        return False if normal < 1 else True
 
 
 if __name__ == "__main__":

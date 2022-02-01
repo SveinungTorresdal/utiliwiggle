@@ -42,7 +42,7 @@ class MoveTo(Action):
         obs.obs_sceneitem_set_pos(self.scene_item, new_pos)
 
         # Returns either 0 (not done) or 1 (done)
-        return False if normal <= 1 else True
+        return False if normal < 1 else True
 
 
 if __name__ == "__main__":

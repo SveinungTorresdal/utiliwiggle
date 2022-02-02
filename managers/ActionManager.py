@@ -34,13 +34,17 @@ class ActionManager:
 
         duration = 5
 
-        wait_spawn = Wait(1+(0.5*offset), scene_item)
-        spawn_pos = MoveTo(0, scene_item, 1280, 608)
-        bot_left = MoveToRotate(duration, scene_item, -112, 608, -360*4)
+        width = 1280+56
+        space = width/14
+        time = space/width*duration
+
+        wait_spawn = Wait(1+(time*offset), scene_item)
+        spawn_pos = MoveTo(0, scene_item, 1280+56, 720-56)
+        bot_left = MoveTo(duration, scene_item, -56, 720-56)
 
         self.current_queue = [
             spawn_pos,
-            wait_spawn
+            wait_spawn,
         ]
         self.repeating_queue = [
             bot_left,

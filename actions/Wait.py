@@ -1,6 +1,7 @@
 from actions.Action import Action
 from typing import Union
 
+
 class Wait(Action):
     """
     Action that simply... waits.

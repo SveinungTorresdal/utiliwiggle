@@ -5,7 +5,8 @@ from actions.Wait import Wait
 
 import obspython as obs
 
-class ActionManager():
+
+class ActionManager:
     """
     Manages actions; it first executes any actions in the current queue,
     after which it executes any actions in the repeating queue whenever the queue empties.
@@ -30,18 +31,18 @@ class ActionManager():
 
         self.scene_item = scene_item
 
-        center = MoveTo(0, scene_item, (1280+112)/2, (720+112)/2)
+        center = MoveTo(0, scene_item, (1280 + 112) / 2, (720 + 112) / 2)
 
-        offscreen_bot_right = MoveTo(0, scene_item, 1280, 720-112)
-        offscreen_bot_left = MoveTo(8, scene_item, -112, 720-112)
+        offscreen_bot_right = MoveTo(0, scene_item, 1280, 720 - 112)
+        offscreen_bot_left = MoveTo(8, scene_item, -112, 720 - 112)
 
         r1 = Rotate(0, scene_item, 180)
 
         offscreen_top_left = MoveTo(0, scene_item, -112, 112)
-        offscreen_top_right = MoveTo(8, scene_item, 1280+112, 112)
+        offscreen_top_right = MoveTo(8, scene_item, 1280 + 112, 112)
 
         wait = Wait(.25, scene_item)
-        wait_start = Wait(0.45*offset, scene_item)
+        wait_start = Wait(0.45 * offset, scene_item)
 
         self.current_queue = [
             offscreen_bot_right,
@@ -76,7 +77,7 @@ class ActionManager():
         # If the queue runs out of actions, but we have repeatable actions ready.
         if len(self.current_queue) == 0:
             self.current_queue.extend(self.repeating_queue)
-        
+
         # If there were no repeatable actions we can quit.
         if len(self.current_queue) == 0:
             obs.remove_current_callback()
@@ -85,7 +86,7 @@ class ActionManager():
         if self.current_action is None:
             self.current_action = self.current_queue.pop(0)
             self.current_action.start()
-        
+
         completed = self.current_action.update()
 
         if completed:

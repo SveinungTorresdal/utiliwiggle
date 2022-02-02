@@ -9,9 +9,9 @@ class Rotate(Action):
     Rotates a scene_item to an angle over some amount of given time.
     """
 
-    starting_rot: float
+    starting_rot: Union[float, None]
     target_rot: float
-    delta_rot: float
+    delta_rot:  Union[float, None]
 
     def __init__(self, duration: float, scene_item: object, target_rot: float):
         """

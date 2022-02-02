@@ -19,7 +19,7 @@ class SceneManager:
     # Dynamically updated configuration
     scene_src: object   # 'obs_source_t'
     scene: object       # 'obs_scene_t'
-    items: list()
+    items: list
 
     def __init__(self):
         """

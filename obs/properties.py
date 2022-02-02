@@ -17,6 +17,7 @@ def script_defaults(settings):
     obs.obs_data_set_default_string(settings, "wiggle_path", "")
     obs.obs_data_set_default_string(settings, "wiggle_reg", "")
 
+
 def script_properties():
     """
     Called when creating the properties shown in the GUI;

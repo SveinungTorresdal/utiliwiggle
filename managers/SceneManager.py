@@ -7,6 +7,18 @@ from utils.io import get_filepaths_by_extension
 class SceneManager:
     # Manages a scene and its items
 
+    # Basic configuration
+    settings: object    # 'obs_data_t'
+    scene_name: str
+    directory: str
+    filetype: str
+    loaded: bool
+
+    # Dynamically updated configuration
+    scene_src: object   # 'obs_source_t'
+    scene: object       # 'obs_scene_t'
+    items: list()
+
     def __init__(self):
         # Basic conf set via setConfig
         self.settings = None
@@ -59,20 +71,12 @@ class SceneManager:
     def setSources(self):
         self.items.clear()
 
-        starting_x = obs.obs_source_get_width(self.scene_src)
-
-        starting_pos = obs.vec2()
-        target_pos = obs.vec2()
-
         for idx, filepath in enumerate(self.filepaths):
-            obs.vec2_set(starting_pos, starting_x + 112, 720 - 112)
-            obs.vec2_set(target_pos, -112, 720 - 112)
-
-            newSource = Source(self.scene, filepath, starting_pos, target_pos)
+            newSource = Source(self.scene, filepath, idx)
             self.items.append(newSource)
 
         for idx, source in enumerate(self.items):
-            source.move(10, 0.5+0.5*idx)
+            source.move()
 
     def getIsLoaded(self) -> bool:
         return self.loaded

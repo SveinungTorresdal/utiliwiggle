@@ -1,14 +1,19 @@
 import obspython as obs
 import os
-import managers.ActionManager as AM
-import utils.screen_math_helper as pixel
+import managers.ActionManager as Actions
 from typing import Union, List, Tuple
 
 
 class SourceManager:
     # Manages a scene and its items
 
-    def __init__(self, scene, filepath, starting_pos, target_pos: Union[obs.vec2, None] = None):
+    settings: object    # 'obs_data_t'
+    scene: object       # 'obs_scene_t'
+    scene_item: object  # 'obs_sceneitem_t'
+    source: object      # 'obs_source_t'
+    filepath: str
+
+    def __init__(self, scene, filepath, index: int):
         self.settings = obs.obs_data_create()
         self.scene = scene
         self.scene_item = None
@@ -17,8 +22,7 @@ class SourceManager:
 
         self.createSource()
 
-        # self.slot = pixel.Slot(starting_pos, 0, self.scene_item, target_pos)
-        self.AM = AM.ActionManager(self.scene_item, 0)
+        self.Actions = Actions.ActionManager(self.scene_item, index)
 
     def __del__(self):
         obs.obs_sceneitem_remove(self.scene_item)
@@ -32,8 +36,8 @@ class SourceManager:
         self.source = obs.obs_source_create_private("image_source", os.path.split(self.filepath)[1], self.settings)
         self.scene_item = obs.obs_scene_add(self.scene, self.source)
 
-    def move(self, duration: int, delay: float = 0):
-        self.AM.start()
+    def move(self):
+        self.Actions.start()
 
 
 if __name__ == "__main__":

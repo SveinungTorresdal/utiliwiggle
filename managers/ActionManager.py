@@ -1,3 +1,4 @@
+from actions.Action import Action
 from actions.MoveTo import MoveTo
 from actions.Rotate import Rotate
 from actions.Wait import Wait
@@ -7,27 +8,39 @@ import obspython as obs
 class ActionManager():
     # Manages actions
 
-    scene_item = None
-
-    current_action = None
-    current_queue = list()
-    repeating_queue = list()
-
     def __init__(self, scene_item, offset):
+        self.current_action: Action = None
+        self.current_queue = list()
+        self.repeating_queue = list()
+
         self.scene_item = scene_item
 
         center = MoveTo(0, scene_item, (1280-112)/2, (720-112)/2)
 
         m1 = MoveTo(0, scene_item, 1280, 720-112)
-        m2 = MoveTo(2, scene_item, -112, 720-112)
+        m2 = MoveTo(8, scene_item, -112, 720-112)
 
-        r1 = Rotate(3, scene_item, 360*4)
+        r1 = Rotate(0, scene_item, 180)
+
+        m3 = MoveTo(0, scene_item, -112, 112)
+        m4 = MoveTo(8, scene_item, 1280+112, 112)
+
+        wait = Wait(.25, scene_item)
+        wait_start = Wait(0.45*offset, scene_item)
 
         self.current_queue = [
-            center
+            m1,
+            wait_start
         ]
         self.repeating_queue = [
-            r1
+            m1,
+            m2,
+            r1,
+            wait,
+            m3,
+            m4,
+            r1,
+            wait,
         ]
 
     def start(self):

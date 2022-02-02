@@ -83,7 +83,6 @@ class ActionManager():
 
         # Get existing action; get and start new action of none exists
         if self.current_action is None:
-            print('Set new action')
             self.current_action = self.current_queue.pop(0)
             self.current_action.start()
         

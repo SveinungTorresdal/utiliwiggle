@@ -39,17 +39,14 @@ class Rotate(Action):
         self.starting_rot = obs.obs_sceneitem_get_rot(self.scene_item)
         self.delta_rot = self.target_rot - self.starting_rot
 
-    def update(self, normal: Union[float, None] = None) -> bool:
+    def update(self) -> bool:
         """
         Updates rotation to a normalized position based on the time passed.
-
-        @params:
-        normal: float   | value between 0 and 1
 
         @returns whether action is completed.
         """
 
-        normal = normal if normal is not None else super().normie_time()
+        normal = super().normie_time()
         step_rot: float = self.delta_rot * normal
         obs.obs_sceneitem_set_rot(self.scene_item, step_rot)
 

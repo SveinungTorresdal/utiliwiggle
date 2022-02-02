@@ -42,7 +42,7 @@ class MoveTo(Action):
         obs.obs_sceneitem_get_pos(self.scene_item, self.starting_pos)
         obs.vec2_sub(self.delta_v, self.target_pos, self.starting_pos)
 
-    def update(self, normal: Union[float, None] = None) -> bool:
+    def update(self) -> bool:
         """
         Updates movement to a normalized position based on the time passed.
 
@@ -52,7 +52,7 @@ class MoveTo(Action):
         @returns whether action is completed.
         """
 
-        normal = normal if normal is not None else super().normie_time()
+        normal = super().normie_time()
 
         normal_v = obs.vec2()  # time between 0 and 1
         step_v = obs.vec2()  # calculated distance to move

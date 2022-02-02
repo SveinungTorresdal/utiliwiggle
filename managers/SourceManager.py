@@ -54,6 +54,7 @@ class SourceManager:
         obs.obs_data_set_bool(self.settings, "unload", False)
         self.source = obs.obs_source_create_private("image_source", os.path.split(self.filepath)[1], self.settings)
         self.scene_item = obs.obs_scene_add(self.scene, self.source)
+        obs.obs_sceneitem_set_alignment(self.scene_item, 0)
 
     def move(self):
         """

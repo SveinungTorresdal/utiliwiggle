@@ -52,7 +52,7 @@ class MoveToRotate(Action):
         self.starting_rot = obs.obs_sceneitem_get_rot(self.scene_item)
         self.delta_rot = self.target_rot - self.starting_rot
 
-    def update(self, normal: Union[float, None] = None) -> bool:
+    def update(self) -> bool:
         """
         Updates movement and rotation to a normalized position based on the time passed.
 
@@ -62,7 +62,7 @@ class MoveToRotate(Action):
         @returns whether action is completed.
         """
 
-        normal = normal if normal is not None else super().normie_time()
+        normal = super().normie_time()
 
         # Move object
         normal_v = obs.vec2()  # time between 0 and 1

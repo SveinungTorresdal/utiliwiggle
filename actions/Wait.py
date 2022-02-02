@@ -26,7 +26,7 @@ class Wait(Action):
 
         super().start()
 
-    def update(self, normal: Union[float, None] = None) -> bool:
+    def update(self) -> bool:
         """
         Updates based on the timer.
 
@@ -36,7 +36,7 @@ class Wait(Action):
         @returns whether action is completed.
         """
 
-        normal = normal if normal is not None else super().normie_time()
+        normal = super().normie_time()
         return False if normal < 1 else True
 
 

@@ -1,5 +1,3 @@
-import obspython as obs
-
 from obs.description import script_description
 from obs.properties import script_defaults, script_properties
 from obs.lifecycle import script_update

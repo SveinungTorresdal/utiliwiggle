@@ -56,12 +56,15 @@ class SourceManager:
         self.scene_item = obs.obs_scene_add(self.scene, self.source)
         obs.obs_sceneitem_set_alignment(self.scene_item, 0)
 
-    def move(self):
+    def start(self):
         """
         Begins playing the source's associated actions to make it move.
         """
         
         self.Actions.start()
+
+    def update(self, seconds):
+        self.Actions.update(seconds)
 
 
 if __name__ == "__main__":

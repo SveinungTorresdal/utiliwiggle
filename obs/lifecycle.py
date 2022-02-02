@@ -34,6 +34,9 @@ def event_callback(event):
     if event is obs.OBS_FRONTEND_EVENT_FINISHED_LOADING:
         SceneManager.load()
 
+def script_tick(seconds):
+    if SceneManager.getIsLoaded():
+        SceneManager.tick(seconds)
 
 if __name__ == "__main__":
     print('Wrong file. Run main.py.')

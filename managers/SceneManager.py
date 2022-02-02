@@ -99,7 +99,7 @@ class SceneManager:
             self.items.append(newSource)
 
         for idx, source in enumerate(self.items):
-            source.move()
+            source.start()
 
     def getIsLoaded(self) -> bool:
         """
@@ -122,6 +122,9 @@ class SceneManager:
             self.setSources()
             print(f'We have {len(self.items)} files to load.')
 
+    def tick(self, seconds):
+        for source in self.items:
+            source.update(seconds)
 
 if __name__ != "__main__":
     Instance = SceneManager()

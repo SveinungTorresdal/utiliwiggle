@@ -56,9 +56,9 @@ class ActionManager:
         Sets up a callback to be rung at set interval.
         """
 
-        obs.timer_add(self.tick, 20)
+        # obs.timer_add(self.tick, 20)
 
-    def tick(self):
+    def update(self, seconds):
         """
         If an action is ongoing we update its progress.
         When no action is set we fetch a new one from the queue.
@@ -72,7 +72,8 @@ class ActionManager:
 
         # If there were no repeatable actions we can quit.
         if len(self.current_queue) == 0:
-            obs.remove_current_callback()
+            return
+        #    obs.remove_current_callback()
 
         # Get existing action; get and start new action of none exists
         if self.current_action is None:

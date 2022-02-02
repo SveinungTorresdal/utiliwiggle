@@ -1,5 +1,6 @@
 from actions.Action import Action
 from actions.MoveTo import MoveTo
+from actions.MoveToRotate import MoveToRotate
 from actions.Rotate import Rotate
 from actions.Wait import Wait
 
@@ -31,32 +32,19 @@ class ActionManager:
 
         self.scene_item = scene_item
 
-        center = MoveTo(0, scene_item, (1280 + 112) / 2, (720 + 112) / 2)
+        duration = 5
 
-        offscreen_bot_right = MoveTo(0, scene_item, 1280, 720 - 112)
-        offscreen_bot_left = MoveTo(8, scene_item, -112, 720 - 112)
-
-        r1 = Rotate(0, scene_item, 180)
-
-        offscreen_top_left = MoveTo(0, scene_item, -112, 112)
-        offscreen_top_right = MoveTo(8, scene_item, 1280 + 112, 112)
-
-        wait = Wait(.25, scene_item)
-        wait_start = Wait(0.45 * offset, scene_item)
+        wait_spawn = Wait(1+(0.5*offset), scene_item)
+        spawn_pos = MoveTo(0, scene_item, 1280, 608)
+        bot_left = MoveToRotate(duration, scene_item, -112, 608, -360*4)
 
         self.current_queue = [
-            offscreen_bot_right,
-            wait_start
+            spawn_pos,
+            wait_spawn
         ]
         self.repeating_queue = [
-            offscreen_bot_right,
-            offscreen_bot_left,
-            r1,
-            wait,
-            offscreen_top_left,
-            offscreen_top_right,
-            r1,
-            wait,
+            bot_left,
+            spawn_pos
         ]
 
     def start(self):

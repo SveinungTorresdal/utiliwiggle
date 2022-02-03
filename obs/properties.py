@@ -2,8 +2,15 @@ import obspython as obs
 from utils.obs import populate_list_property_with_scene_names
 
 
-# Called to set default values of data settings
 def script_defaults(settings):
+    """
+    Called after script properties are created to set default values of properties;
+    the user's own selections are set afterwards.
+
+    @params:
+    settings: 'obs_data_t'
+    """
+
     current_scene = obs.obs_frontend_get_current_scene()
     current_scene_name = obs.obs_source_get_name(current_scene)
     obs.obs_data_set_default_string(settings, "wiggle_scene", current_scene_name)
@@ -11,8 +18,12 @@ def script_defaults(settings):
     obs.obs_data_set_default_string(settings, "wiggle_reg", "")
 
 
-# Called to display the properties GUI
 def script_properties():
+    """
+    Called when creating the properties shown in the GUI;
+    defaults are set after creating the properties.
+    """
+
     props = obs.obs_properties_create()
     scenes_property = obs.obs_properties_add_list(props, "wiggle_scene", "Scene", obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_STRING)
     populate_list_property_with_scene_names(scenes_property)

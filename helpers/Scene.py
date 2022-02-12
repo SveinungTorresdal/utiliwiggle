@@ -5,6 +5,7 @@ from helpers.Anchor import Anchor
 from helpers.SceneItem import SceneItem
 from utils.io import get_filepaths_by_extension
 
+
 class Scene:
     """
     Python representation of an OBS scene (obs_scene_t).
@@ -17,22 +18,22 @@ class Scene:
 
     def get_setting(self, key: str) -> str:
         return obs.obs_data_get_string(self._settings, key)
-    
+
     def set_settings(self, settings: object):
         self._settings = settings
 
     @property
     def loaded(self) -> bool:
         return self._loaded
-    
+
     @loaded.setter
     def loaded(self, truth: bool):
         self._loaded = truth
 
     @property
-    def scene(self) -> object: 
+    def scene(self) -> object:
         return self._scene
-    
+
     @scene.setter
     def scene(self, scene_name: str = ''):
         scene_source = obs.obs_get_source_by_name(scene_name)
@@ -55,13 +56,13 @@ class Scene:
         transforms = [
             {
                 'duration': 0,
-                'position': (1280+56, 720-56),
+                'position': (1280 + 56, 720 - 56),
                 'rotation': 360,
                 'scale': (1, 1)
             },
             {
                 'duration': 10,
-                'position': (1280/2, 720/2),
+                'position': (1280 / 2, 720 / 2),
                 'rotation': 360,
                 'scale': (1.5, 1.5)
             }
@@ -74,6 +75,6 @@ class Scene:
     def tick(self):
         if self.loaded is not True:
             return
-        
+
         current = time.time()
         [sceneitem.transform(current) for sceneitem in self.sceneitems]

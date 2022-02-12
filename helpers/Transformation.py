@@ -72,19 +72,19 @@ class Transformation:
 
         for key, transformation in self.transformations.items():
             transform = None
-            
+
             if transformation.__class__ is Tuple.__class__:
                 self.delta[key] = Tuple[transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1]]
                 transform = Tuple[self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal]
-                
+
             else:
                 self.delta[key] = transformation - self.initial[key]
                 transform = self.initial[key] + transformation * self.normal
 
             setattr(self.sceneitem, key, transform)
-        
+
         return False if self.normal < 1 else True
-    
+
     def get_endtime(self) -> float:
         return self.timestamp + self.duration
 

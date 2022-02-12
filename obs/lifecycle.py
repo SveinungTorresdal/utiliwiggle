@@ -36,8 +36,8 @@ def event_callback(event):
 
 def script_tick(seconds):
     pass
-#    if scene.loaded:
-#        scene.tick(seconds)
+    if scene.loaded:
+        scene.tick()
 
 if __name__ == "__main__":
     print('Wrong file. Run main.py.')

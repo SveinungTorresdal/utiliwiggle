@@ -42,7 +42,6 @@ class Scene:
         """
         Loads files, creates scene items
         """
-        self.loaded = True
         self.timestamp = time.time()
 
         # set scene
@@ -53,4 +52,31 @@ class Scene:
         filetype = self.get_setting("wiggle_reg")
         files = get_filepaths_by_extension(directory, filetype)
 
-        self.sceneitems = [SceneItem(self.scene, Anchor.Center, file) for file in files]
+        transforms = [
+            {
+                'duration': 0,
+                'position': (1280+56, 720-56),
+                'rotation': 360,
+                'scale': (1, 1)
+            },
+            {
+                'duration': 10,
+                'position': (1280/2, 720/2),
+                'rotation': 360,
+                'scale': (1.5, 1.5)
+            }
+        ]
+
+        self.sceneitems = [SceneItem(self.scene, Anchor.Center, transforms, file) for file in files]
+
+        self.loaded = True
+
+        current = time.time()
+        [sceneitem.transform(current) for sceneitem in self.sceneitems]
+
+    def tick(self):
+        if self.loaded is not True:
+            return
+        
+        #current = time.time()
+        #[sceneitem.transform(current) for sceneitem in self.sceneitems]

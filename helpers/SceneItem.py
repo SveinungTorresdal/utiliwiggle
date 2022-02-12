@@ -10,12 +10,12 @@ class SceneItem:
     Python representation of an OBS sceneitem (obs_sceneitem_t).
     """
     source: object          # 'obs_source_t'
-    scene_item: object      # 'obs_sceneitem_t'
+    sceneitem: object      # 'obs_sceneitem_t'
 
-    _transformation: Transformation
-    _transformations: list
+    transformations: list
+    transformation: Transformation
 
-    def __init__(self, scene: object, anchor: Anchor, filepath: str):
+    def __init__(self, scene: object, anchor: Anchor, transformations: list, filepath: str):
         """
         Initializes scene item from filepath.
         
@@ -24,6 +24,9 @@ class SceneItem:
         """
         self.source = None
         self.sceneitem = None
+        
+        self.transformations = transformations
+        self.transformation = None
 
         settings = obs.obs_data_create()
 
@@ -44,6 +47,9 @@ class SceneItem:
         obs.obs_sceneitem_release(self.sceneitem)
         obs.obs_source_release(self.source)
 
+    """
+    Gets or sets the anchor point of sceneitem
+    """
     @property
     def anchor(self) -> Anchor:
         """
@@ -63,6 +69,9 @@ class SceneItem:
         """
         obs.obs_sceneitem_set_alignment(self.sceneitem, anchor)
 
+    """
+    Gets or sets the position of sceneitem
+    """
     @property
     def position(self) -> Tuple[float, float]:
         """
@@ -85,7 +94,10 @@ class SceneItem:
         vec = obs.vec2()
         obs.vec2_set(vec, position[0], position[1])
         obs.obs_sceneitem_set_pos(self.sceneitem, vec)
-
+    
+    """
+    Gets or sets the rotation of sceneitem
+    """
     @property
     def rotation(self) -> float:
         """
@@ -105,6 +117,9 @@ class SceneItem:
         """
         obs.obs_sceneitem_set_rot(self.sceneitem, angle)
     
+    """
+    Gets or sets the scale of sceneitem
+    """
     @property
     def scale(self) -> Tuple[float, float]:
         """
@@ -115,7 +130,7 @@ class SceneItem:
         vec = obs.vec2()
         obs.obs_sceneitem_get_scale(self.sceneitem, vec)
         return (vec[0], vec[1])
-    
+
     @scale.setter
     def scale(self, scale: Tuple[float, float]):
         """
@@ -127,3 +142,21 @@ class SceneItem:
         vec = obs.vec2()
         obs.vec2_set(vec, scale[0], scale[1])
         obs.obs_sceneitem_set_scale(self.sceneitem, vec)
+
+    """
+    Run transformation
+    """
+    def transform(self, time: float):
+        if self.transformation is None and len(self.transformations) > 0:
+            init_transforms = self.transformations.pop(0)
+            self.transformation = Transformation(self, time, **init_transforms)
+        
+        complete = self.transformation.transform(time)
+
+        if complete:
+            start_time = self.transformation.get_endtime()
+            transforms = self.transformation.get_transforms()
+            self.transformations.append(transforms)
+            new_transforms = self.transformations.pop(0)
+            self.transformation = Transformation(self, start_time, **new_transforms)
+        

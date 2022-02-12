@@ -1,10 +1,11 @@
-from helpers.SceneItem import SceneItem
+from typing import Tuple
+
 
 class Transformation:
     """
     Queuable transformation.
     """
-    sceneitem: SceneItem
+    sceneitem: object
     timestamp: float
     duration: float
     initial: dict
@@ -12,7 +13,7 @@ class Transformation:
 
     _normal: float
 
-    def __init__(self, sceneitem: SceneItem, timestamp: float, duration: float, **transformations):
+    def __init__(self, sceneitem: object, timestamp: float, duration: float, **transformations):
         """
         Initializes transformation.
 
@@ -30,6 +31,11 @@ class Transformation:
         for key, transformation in transformations.items():
             self.initial[key] = getattr(sceneitem, key)
             self.transformations[key] = transformation
+            
+            if transformation.__class__ is Tuple.__class__:
+                self.delta[key] = Tuple[transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1]]
+            else:
+                self.delta[key] = transformation - self.initial[key]
 
     @property
     def normal(self) -> float:
@@ -50,3 +56,15 @@ class Transformation:
     def transform(self, time: float):
         self.normal(time)
 
+        for key, transformation in self.transformations.items():
+            transform = None
+            
+            if transformation.__class__ is Tuple.__class__:
+                self.delta[key] = Tuple[transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1]]
+                transform = Tuple[self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal]
+                
+            else:
+                self.delta[key] = transformation - self.initial[key]
+                transform = self.initial[key] + transformation * self.normal
+
+            setattr(self.sceneitem, key, transform)

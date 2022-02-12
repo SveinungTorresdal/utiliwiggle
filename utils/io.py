@@ -1,4 +1,5 @@
 import os
+from typing import Tuple
 
 
 def get_filepaths_by_extension(path: str, file_extension: str):

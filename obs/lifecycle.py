@@ -1,7 +1,7 @@
 import obspython as obs
-import managers.SceneManager
+from helpers.Scene import Scene
 
-SceneManager = managers.SceneManager.Instance
+scene = Scene()
 
 
 def script_update(settings):
@@ -12,10 +12,10 @@ def script_update(settings):
     settings: 'obs_data_t'
     """
 
-    SceneManager.setConfig(settings)
+    scene.set_settings(settings)
 
-    if SceneManager.getIsLoaded():
-        SceneManager.load()
+    if scene.loaded:
+        scene.start()
     else:
         # We need to wait for OBS to finish loading frontend
         # Subsequent calls are fine to call SceneManager
@@ -32,11 +32,12 @@ def event_callback(event):
     """
     
     if event is obs.OBS_FRONTEND_EVENT_FINISHED_LOADING:
-        SceneManager.load()
+        scene.start()
 
 def script_tick(seconds):
-    if SceneManager.getIsLoaded():
-        SceneManager.tick(seconds)
+    pass
+#    if scene.loaded:
+#        scene.tick(seconds)
 
 if __name__ == "__main__":
     print('Wrong file. Run main.py.')

@@ -16,7 +16,7 @@ class Scene:
     timestamp: float
 
     def get_setting(self, key: str) -> str:
-        obs.obs_data_get_string(self.settings, key)
+        return obs.obs_data_get_string(self._settings, key)
     
     def set_settings(self, settings: object):
         self._settings = settings
@@ -31,22 +31,22 @@ class Scene:
 
     @property
     def scene(self) -> object: 
-        return self.scene
+        return self._scene
     
     @scene.setter
-    def scene(self, scene_name = str):
-        scene_name = obs.obs_data_get_string(self.settings, "wiggle_scene")
+    def scene(self, scene_name: str = ''):
         scene_source = obs.obs_get_source_by_name(scene_name)
-        self.scene = obs.obs_scene_from_source(scene_source)
+        self._scene = obs.obs_scene_from_source(scene_source)
 
     def start(self):
         """
+        Loads files, creates scene items
         """
-        self.loaded(True)
+        self.loaded = True
         self.timestamp = time.time()
 
         # set scene
-        self.scene(self.get_setting("wiggle_scene"))
+        self.scene = self.get_setting("wiggle_scene")
 
         # get files
         directory = self.get_setting("wiggle_path")

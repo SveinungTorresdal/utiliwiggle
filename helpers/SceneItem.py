@@ -3,13 +3,17 @@ import obspython as obs
 import os
 
 from helpers.Anchor import Anchor
+from helpers.Transformation import Transformation
 
 class SceneItem:
     """
     Python representation of an OBS sceneitem (obs_sceneitem_t).
     """
-    source: object      # 'obs_source_t'
-    scene_item: object  # 'obs_sceneitem_t'
+    source: object          # 'obs_source_t'
+    scene_item: object      # 'obs_sceneitem_t'
+
+    _transformation: Transformation
+    _transformations: list
 
     def __init__(self, scene: object, anchor: Anchor, filepath: str):
         """
@@ -118,7 +122,7 @@ class SceneItem:
         Gets the scale of the sceneitem.
 
         @params:
-        scale: Tuple[int, int] | New (x, y) scale of sceneitem
+        scale: Tuple[float, float] | New (x, y) scale of sceneitem
         """
         vec = obs.vec2()
         obs.vec2_set(vec, scale[0], scale[1])

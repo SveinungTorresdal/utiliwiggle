@@ -126,4 +126,4 @@ class SceneItem:
         """
         vec = obs.vec2()
         obs.vec2_set(vec, scale[0], scale[1])
-        obs.obs_sceneitem_set_scale(self.sceneitem, scale)
+        obs.obs_sceneitem_set_scale(self.sceneitem, vec)

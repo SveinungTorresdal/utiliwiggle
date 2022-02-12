@@ -1,7 +1,5 @@
 from enum import IntFlag
 
-import numpy as np
-
 class Anchor(IntFlag):
     """
     Enum class to set anchor on sceneitem.

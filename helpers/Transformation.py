@@ -12,6 +12,8 @@ class Transformation:
     delta: dict
     transformations: dict
 
+    input: dict
+
     _normal: float
 
     def __init__(self, sceneitem: object, timestamp: float, **transformations):
@@ -28,20 +30,18 @@ class Transformation:
         self.timestamp = timestamp
         self._normal = 0
 
-        self.initial = {}
-        self.delta = {}
-        self.transformations = {}
+        self.duration = transformations['duration'] if transformations['duration'] else 0
+        
+        self.input = transformations
 
-        for key, transformation in transformations.items():
-            if key == 'duration':
-                self.duration = transformation
-            else:
-                self.initial[key] = getattr(sceneitem, key)
+        self.initial = {key:getattr(sceneitem, key) for (key, value) in transformations.items() if key not in ['description', 'duration']}
+        
+        self.transformations = {key:value for (key, value) in transformations.items() if key not in ['description', 'duration']}
 
-                if transformation.__class__ is Tuple.__class__ or type(transformation) is tuple:
-                    self.delta[key] = (transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1])
-                else:
-                    self.delta[key] = transformation - self.initial[key]
+        # create deltas without tuples
+        self.delta = {key:value for (key, value) in transformations.items() if value.__class__ is not Tuple.__class__ and type(value) is not tuple}
+        # update with tuples
+        self.delta.update({key:(value[0] - self.initial[key][0], value[1] - self.initial[key][1]) for (key, value) in transformations.items() if value.__class__ is Tuple.__class__ or type(value) is tuple})
 
     @property
     def normal(self) -> float:
@@ -70,18 +70,20 @@ class Transformation:
         """
         self.normal = time
 
+        # print(f'Transforming {self.transformations.keys()} @ {self.normal}')
+
         for key, transformation in self.transformations.items():
-            transform = None
-
-            if transformation.__class__ is Tuple.__class__:
-                self.delta[key] = Tuple[transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1]]
-                transform = Tuple[self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal]
-
+            if transformation.__class__ is Tuple.__class__ or type(transformation) is tuple:
+                self.delta[key] = (transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1])
+                transform = (self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal)
+                setattr(self.sceneitem, key, transform)
+                
             else:
                 self.delta[key] = transformation - self.initial[key]
                 transform = self.initial[key] + transformation * self.normal
+                setattr(self.sceneitem, key, transform)
 
-            setattr(self.sceneitem, key, transform)
+            
 
         return False if self.normal < 1 else True
 
@@ -89,4 +91,4 @@ class Transformation:
         return self.timestamp + self.duration
 
     def get_transforms(self) -> dict:
-        return self.transformations
+        return self.input

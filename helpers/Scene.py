@@ -56,13 +56,13 @@ class Scene:
         transforms = [
             {
                 'duration': 0,
-                'position': (1280 + 56, 720 - 56),
+                'position': (0 + 56, 0 + 56),
                 'rotation': 360,
                 'scale': (1, 1)
             },
             {
                 'duration': 10,
-                'position': (1280 / 2, 720 / 2),
+                'position': (1280 - 56, 720 - 56),
                 'rotation': 360,
                 'scale': (1.5, 1.5)
             }

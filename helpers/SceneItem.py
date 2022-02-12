@@ -84,7 +84,7 @@ class SceneItem:
         """
         pos = obs.vec2()
         obs.obs_sceneitem_get_pos(self.sceneitem, pos)
-        return pos.x, pos.y
+        return (pos.x, pos.y)
 
     @position.setter
     def position(self, position: Tuple[float, float]):
@@ -134,7 +134,7 @@ class SceneItem:
         """
         vec = obs.vec2()
         obs.obs_sceneitem_get_scale(self.sceneitem, vec)
-        return vec.x, vec.y
+        return (vec.x, vec.y)
 
     @scale.setter
     def scale(self, scale: Tuple[float, float]):
@@ -153,8 +153,6 @@ class SceneItem:
     """
 
     def transform(self, time: float):
-        print(len(self.transformations))
-
         if self.transformation is None and len(self.transformations) > 0:
             init_transforms = self.transformations.pop(0)
             self.transformation = Transformation(self, time, **init_transforms)
@@ -162,6 +160,7 @@ class SceneItem:
         complete = self.transformation.transform(time)
 
         if complete:
+            print(f'New transformation with {self.transformation.duration} duration')
             start_time = self.transformation.get_endtime()
             transforms = self.transformation.get_transforms()
             self.transformations.append(transforms)

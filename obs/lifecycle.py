@@ -35,8 +35,8 @@ def event_callback(event):
         scene.start()
 
 def script_tick(seconds):
-    pass
     if scene.loaded:
+        pass
         scene.tick()
 
 if __name__ == "__main__":

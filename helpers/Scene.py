@@ -71,12 +71,9 @@ class Scene:
 
         self.loaded = True
 
-        current = time.time()
-        [sceneitem.transform(current) for sceneitem in self.sceneitems]
-
     def tick(self):
         if self.loaded is not True:
             return
         
-        #current = time.time()
-        #[sceneitem.transform(current) for sceneitem in self.sceneitems]
+        current = time.time()
+        [sceneitem.transform(current) for sceneitem in self.sceneitems]

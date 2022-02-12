@@ -129,7 +129,7 @@ class SceneItem:
         """
         vec = obs.vec2()
         obs.obs_sceneitem_get_scale(self.sceneitem, vec)
-        return (vec[0], vec[1])
+        return (vec.x, vec.y)
 
     @scale.setter
     def scale(self, scale: Tuple[float, float]):
@@ -147,6 +147,8 @@ class SceneItem:
     Run transformation
     """
     def transform(self, time: float):
+        print(len(self.transformations))
+
         if self.transformation is None and len(self.transformations) > 0:
             init_transforms = self.transformations.pop(0)
             self.transformation = Transformation(self, time, **init_transforms)

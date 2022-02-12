@@ -9,6 +9,7 @@ class Transformation:
     timestamp: float
     duration: float
     initial: dict
+    delta: dict
     transformations: dict
 
     _normal: float
@@ -28,16 +29,17 @@ class Transformation:
         self._normal = 0
 
         self.initial = {}
-        self.transformations = transformations
+        self.delta = {}
+        self.transformations = {}
 
         for key, transformation in transformations.items():
             if key == 'duration':
                 self.duration = transformation
             else:
                 self.initial[key] = getattr(sceneitem, key)
-                
-                if transformation.__class__ is Tuple.__class__:
-                    self.delta[key] = Tuple[transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1]]
+
+                if transformation.__class__ is Tuple.__class__ or type(transformation) is tuple:
+                    self.delta[key] = (transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1])
                 else:
                     self.delta[key] = transformation - self.initial[key]
 
@@ -55,13 +57,18 @@ class Transformation:
 
         @returns float | normalized value between 0 and 1
         """
-        self._normal = (time - self.timestamp) / self.duration
+        if self.duration is 0:
+            # if duration is zero it always completes on call;
+            # avoids dividing by zero
+            self._normal = 1
+        else:
+            self._normal = (time - self.timestamp) / self.duration
 
     def transform(self, time: float):
         """
         Executes current transforms.
         """
-        self.normal(time)
+        self.normal = time
 
         for key, transformation in self.transformations.items():
             transform = None

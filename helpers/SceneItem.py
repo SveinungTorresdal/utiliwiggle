@@ -160,7 +160,6 @@ class SceneItem:
         complete = self.transformation.transform(time)
 
         if complete:
-            print(f'New transformation with {self.transformation.duration} duration')
             start_time = self.transformation.get_endtime()
             transforms = self.transformation.get_transforms()
             self.transformations.append(transforms)

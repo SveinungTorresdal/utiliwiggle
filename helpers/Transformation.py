@@ -36,10 +36,11 @@ class Transformation:
         filtered = {key:value for (key, value) in transformations.items() if key not in ['description', 'duration']}
 
         self.initial = {key:getattr(sceneitem, key) for (key, value) in filtered.items()}
-        
         self.transformations = {key:value for (key, value) in filtered.items()}
 
-        self.delta = {key:self.parse_transform(key, value) for (key, value) in filtered.items()}
+        is_tuple = lambda value: value.__class__ is Tuple.__class__ or type(value) is tuple
+        parse_delta = lambda target, initial: (target[0] - initial[0], target[1] - initial[1]) if is_tuple(target) else target - initial
+        self.delta = {key:parse_delta(value, self.initial[key]) for (key, value) in filtered.items()}
 
 
     @property
@@ -87,9 +88,3 @@ class Transformation:
 
     def get_transforms(self) -> dict:
         return self.input
-
-    def parse_transform(self, key, value):
-        if value.__class__ is Tuple.__class__ or type(value) is tuple:
-            return (value[0] - self.initial[key][0], value[1] - self.initial[key][1])
-        else:
-            return value - self.initial[key]

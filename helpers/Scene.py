@@ -55,16 +55,15 @@ class Scene:
 
         transforms = [
             {
+                'description': 'Starting position?',
                 'duration': 0,
-                'position': (0 + 56, 0 + 56),
-                'rotation': 360,
-                'scale': (1, 1)
+                'position': (1280 + 56, 720 - 56)
             },
             {
+                'description': 'Moving left?',
                 'duration': 10,
-                'position': (1280 - 56, 720 - 56),
-                'rotation': 360,
-                'scale': (1.5, 1.5)
+                'position': (0 - 56, 720 - 56),
+                'rotation': 360
             }
         ]
 

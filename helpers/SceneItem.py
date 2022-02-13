@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 import obspython as obs
 import os
 
@@ -14,7 +14,7 @@ class SceneItem:
     sceneitem: object  # 'obs_sceneitem_t'
 
     transformations: list
-    transformation: Transformation
+    transformation: Union[Transformation, None]
 
     def __init__(self, scene: object, anchor: Anchor, transformations: list, filepath: str):
         """
@@ -84,7 +84,7 @@ class SceneItem:
         """
         pos = obs.vec2()
         obs.obs_sceneitem_get_pos(self.sceneitem, pos)
-        return (pos.x, pos.y)
+        return pos.x, pos.y
 
     @position.setter
     def position(self, position: Tuple[float, float]):
@@ -134,7 +134,7 @@ class SceneItem:
         """
         vec = obs.vec2()
         obs.obs_sceneitem_get_scale(self.sceneitem, vec)
-        return (vec.x, vec.y)
+        return vec.x, vec.y
 
     @scale.setter
     def scale(self, scale: Tuple[float, float]):
@@ -165,3 +165,4 @@ class SceneItem:
             self.transformations.append(transforms)
             new_transforms = self.transformations.pop(0)
             self.transformation = Transformation(self, start_time, **new_transforms)
+

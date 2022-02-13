@@ -30,14 +30,15 @@ def event_callback(event):
     @params:
     event: int | Int value represented by enum. We only really care about 'OBS_FRONTEND_EVENT_FINISHED_LOADING'
     """
-    
+
     if event is obs.OBS_FRONTEND_EVENT_FINISHED_LOADING:
         scene.start()
 
+
 def script_tick(seconds):
     if scene.loaded:
-        pass
         scene.tick()
+
 
 if __name__ == "__main__":
     print('Wrong file. Run main.py.')

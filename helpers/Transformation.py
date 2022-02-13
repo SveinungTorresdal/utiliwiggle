@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 
 class Transformation:
@@ -26,22 +26,26 @@ class Transformation:
         duration: float         | How long to run
         kwarg: ...              | Remaining arguments
         """
+
+        def parse_delta(target: Union[Tuple, int], initial: Union[Tuple, int]):
+            if isinstance(target, tuple):
+                return target[0] - initial[0], target[1] - initial[1]
+            else:
+                return target - initial
+
         self.sceneitem = sceneitem
         self.timestamp = timestamp
         self._normal = 0
 
-        self.duration = transformations['duration'] if transformations['duration'] else 0
-        
+        self.duration = transformations.get('duration', 0)
+
         self.input = transformations
-        filtered = {key:value for (key, value) in transformations.items() if key not in ['description', 'duration']}
+        filtered = {key: value for (key, value) in transformations.items() if key not in ['description', 'duration']}
 
-        self.initial = {key:getattr(sceneitem, key) for (key, value) in filtered.items()}
-        self.transformations = {key:value for (key, value) in filtered.items()}
+        self.initial = {key: getattr(sceneitem, key) for (key, value) in filtered.items()}
+        self.transformations = {key: value for (key, value) in filtered.items()}
 
-        is_tuple = lambda value: value.__class__ is Tuple.__class__ or type(value) is tuple
-        parse_delta = lambda target, initial: (target[0] - initial[0], target[1] - initial[1]) if is_tuple(target) else target - initial
-        self.delta = {key:parse_delta(value, self.initial[key]) for (key, value) in filtered.items()}
-
+        self.delta = {key: parse_delta(value, self.initial[key]) for (key, value) in filtered.items()}
 
     @property
     def normal(self) -> float:
@@ -70,13 +74,11 @@ class Transformation:
         """
         self.normal = time
 
-        is_tuple = lambda target: True if target.__class__ is Tuple.__class__ or type(target) is tuple else False
-
         for key, transformation in self.delta.items():
-            if is_tuple(transformation):
+            if isinstance(transformation, tuple):
                 transform = (self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal)
                 setattr(self.sceneitem, key, transform)
-                
+
             else:
                 transform = self.initial[key] + transformation * self.normal
                 setattr(self.sceneitem, key, transform)

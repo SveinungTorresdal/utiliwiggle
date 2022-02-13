@@ -65,7 +65,7 @@ class Scene:
                 'duration': 10,
                 'position': (0 - 56, 720 - 56),
                 'rotation': 360,
-                'scale': (1,1)
+                'scale': (1, 1)
             }
         ]
 
@@ -79,3 +79,38 @@ class Scene:
 
         current = time.time()
         [sceneitem.transform(current) for sceneitem in self.sceneitems]
+
+"""
+Example scene JSON:
+
+
+{
+    Scene1: [
+        sceneItem1: {
+            filepath: "something.png",
+            transformations: [
+                {
+                    'description': 'Moving left?',
+                    'duration': 10,
+                    'position': (0 - 56, 720 - 56),
+                    'rotation': 360,
+                    'scale': (1, 1)
+                },
+                {
+                    'description': 'Moving left?',
+                    'duration': 10,
+                    'position': (0 - 56, 720 - 56),
+                    'rotation': 360,
+                    'scale': (1, 1)
+                }
+            ]
+        }
+    ]
+}
+"""
+
+
+
+
+
+

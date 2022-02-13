@@ -57,13 +57,15 @@ class Scene:
             {
                 'description': 'Starting position?',
                 'duration': 0,
-                'position': (1280 + 56, 720 - 56)
+                'position': (1280 + 56, 720 - 56),
+                'scale': (0.1, 0.1)
             },
             {
                 'description': 'Moving left?',
                 'duration': 10,
                 'position': (0 - 56, 720 - 56),
-                'rotation': 360
+                'rotation': 360,
+                'scale': (1,1)
             }
         ]
 

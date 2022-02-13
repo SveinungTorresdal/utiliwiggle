@@ -70,14 +70,14 @@ class Transformation:
         """
         self.normal = time
 
+        is_tuple = lambda target: True if target.__class__ is Tuple.__class__ or type(target) is tuple else False
+
         for key, transformation in self.delta.items():
-            if transformation.__class__ is Tuple.__class__ or type(transformation) is tuple:
-                self.delta[key] = (transformation[0] - self.initial[key][0], transformation[1] - self.initial[key][1])
+            if is_tuple(transformation):
                 transform = (self.initial[key][0] + transformation[0] * self.normal, self.initial[key][1] + transformation[1] * self.normal)
                 setattr(self.sceneitem, key, transform)
                 
             else:
-                self.delta[key] = transformation - self.initial[key]
                 transform = self.initial[key] + transformation * self.normal
                 setattr(self.sceneitem, key, transform)
 
